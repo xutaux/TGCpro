@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     float vectol;                      //アイテム貼り付け方向
     bool Setteing;                     //アイテム設置中フラグ
     public Item ItemScp;               //アイテムスクリプト変数
+    float copyFlg;
 
     // Use this for initialization
     void Start () {
@@ -62,11 +63,13 @@ public class Player : MonoBehaviour {
             //切り取り＆貼り付け操作
             if (Input.GetKeyDown(KeyCode.C) && Item.gameObject.GetComponent<Item>().SetCnt == 0)
             {
+                tagnam = Item.gameObject.tag;
                 Item.gameObject.SetActive(false);
                 ItemScp = Item.gameObject.GetComponent<Item>();
+                
             }
         }
-        if (Item != null && Input.GetKeyDown(KeyCode.V) && Vcnt == 0)
+        if (Item != null && Input.GetKeyDown(KeyCode.V) && Item.gameObject.GetComponent<Item>().SetCnt == 0)
         {
             SettingCanvas.gameObject.SetActive(true);
             Vcnt = 1;
@@ -106,7 +109,7 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.tag != "Obje")
         {
             Item = collision.gameObject;
-            tagnam = collision.gameObject.tag;
+
             Debug.Log("Tuch");
         }
     }
