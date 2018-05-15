@@ -1,0 +1,110 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Home : MonoBehaviour {
+
+    Rigidbody2D rb;
+    Rigidbody2D cam;
+    Vector2 nowpos;
+    Vector3 campos;
+    public Transform title;
+    public Transform HomeCanvas;
+    public Transform yazirusi;
+    public GameObject SelectCamera;
+    public Transform Marker;
+    float MoveCamX, MoveCamY;
+    float SelectFlg;
+
+
+	// Use this for initialization
+	void Start () {
+        rb = title.GetComponent<Rigidbody2D>();
+        cam = SelectCamera.GetComponent<Rigidbody2D>();
+        HomeCanvas.gameObject.SetActive(false);
+        yazirusi.gameObject.SetActive(false);
+        Marker.gameObject.SetActive(false);
+        MoveCamX = 1.0f;
+        MoveCamY = 0;
+        SelectFlg = 0;
+	}
+
+    // Update is called once per frame
+    void Update() {
+        if (title.transform.position.y < 3)
+        {
+            nowpos = rb.position;
+            nowpos += new Vector2(0, 0.05f);
+            rb.MovePosition(nowpos);
+        }
+        if(title.transform.position.y >= 3 && SelectFlg == 0)
+        {
+            HomeCanvas.gameObject.SetActive(true);
+            yazirusi.gameObject.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (yazirusi.transform.position.y < 0)
+                {
+                    yazirusi.transform.Translate(-1.3f, 1.1f, 0);
+                }
+                else
+                {
+                    yazirusi.transform.Translate(1.3f, -1.1f, 0);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (yazirusi.transform.position.y > -1)
+                {
+                    yazirusi.transform.Translate(1.3f, -1.1f, 0);
+                }
+                else
+                {
+                    yazirusi.transform.Translate(-1.3f, 1.1f, 0);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            { 
+                if(yazirusi.transform.position.y == 0)
+                {
+                    SelectFlg = 1;
+                }
+                else
+                {
+                    SceneManager.LoadScene("End");
+                }
+            }
+        }
+        else if(SelectFlg == 1)
+        {
+            Marker.gameObject.SetActive(true);
+            if(SelectCamera.transform.position.x < 24)
+            {
+                campos = cam.position;
+                campos += new Vector3(MoveCamX, 0, 0);
+                cam.MovePosition(campos);
+            }
+            else
+            {
+                MoveCamX = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow) && Marker.transform.position.y < 2.25)
+            {
+                Marker.transform.Translate(0, 4.5f, 0);
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow) && Marker.transform.position.x > 17.2)
+            {
+                Marker.transform.Translate(-7.2f, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                Marker.transform.Translate(0, -4.5f, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                Marker.transform.Translate(7.2f, 0, 0);
+            }
+        }
+    }
+}
