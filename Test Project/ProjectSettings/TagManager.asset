@@ -11,6 +11,8 @@ TagManager:
   - cube B
   - cube C
   - cube D
+  - hasira B
+  - trap
   layers:
   - Default
   - TransparentFX
