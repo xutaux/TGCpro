@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour {
+public class Player1 : MonoBehaviour
+{
 
     public float speed = 8f;           //移動速度
     public float movebleRange = 23f;   //可動範囲
@@ -22,7 +22,9 @@ public class Player : MonoBehaviour {
     public Item ItemScp;               //アイテムスクリプト変数
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+
         rb = GetComponent<Rigidbody2D>();
         cb = GetComponent<Collider2D>();
         downspeed = 0;
@@ -30,10 +32,12 @@ public class Player : MonoBehaviour {
         vectol = 0;
         Setteing = false;
         SettingCanvas.gameObject.SetActive(false);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         //プレイヤー移動操作
         if (Setteing == false)
         {
@@ -58,62 +62,6 @@ public class Player : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.LeftArrow)) vectol = -2;
             if (Input.GetKeyDown(KeyCode.RightArrow)) vectol = 2;
 
-
-            //切り取り＆貼り付け操作
-            if (Input.GetKeyDown(KeyCode.C) && Item.gameObject.GetComponent<Item>().SetCnt == 0)
-            {
-                Item.gameObject.SetActive(false);
-                ItemScp = Item.gameObject.GetComponent<Item>();
-            }
         }
-        /*if (Item != null && Input.GetKeyDown(KeyCode.V) && Vcnt == 0)
-        {
-            SettingCanvas.gameObject.SetActive(true);
-            Vcnt = 1;
-            Setteing = true;
-            Item.gameObject.SetActive(true);
-            GameObject.Find(tagnam).transform.position = new Vector2(nowpos.x + vectol, nowpos.y);
-            Itmpos = GameObject.Find(tagnam).transform.position;
-        }
-        if(Vcnt == 1)
-        {
-            //Vキーを押してる間アイテムの角度＆位置調整
-            cb.isTrigger = true;
-            Itmpos += new Vector2(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, Input.GetAxisRaw("Vertical") * speed * Time.deltaTime);
-            GameObject.Find(tagnam).transform.position = Itmpos;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rot += 10;
-                if (rot > 350) rot = 0;
-            }
-            Item.transform.eulerAngles = new Vector3(0, 0, rot);
-
-            if (Input.GetKeyUp(KeyCode.V))  //Vキーを離したら調整終了
-            {
-                SettingCanvas.gameObject.SetActive(false);
-                Setteing = false;
-                cb.isTrigger = false;
-                ItemScp.SetCnt = 1;
-                Item = null;
-                Vcnt = 0;
-                rot = 0;
-            }           
-        }*/
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag != "Obje")
-        {
-            Item = collision.gameObject;
-            tagnam = collision.gameObject.tag;
-            Debug.Log("Tuch");
-        }
-    }
-
-    private void OnBecameInvisible()
-    {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Debug.Log("Respown");
     }
 }
