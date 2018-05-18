@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     Rigidbody2D rb;                    //プレイヤー移動用変数
     Collider2D cb;                     //isTrigger用変数
     GameObject Item;                   //アイテム情報格納変数
+    GameObject SetItem;
     string tagnam;                     //アイテムのタグ名格納変数
     Vector2 Itmpos;                    //アイテム座標
     Vector2 nowpos;                    //プレイヤー座標
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour {
     float vectol;                      //アイテム貼り付け方向
     bool Setteing;                     //アイテム設置中フラグ
     public Item ItemScp;               //アイテムスクリプト変数
+    float copyFlg;
 
     // Use this for initialization
     void Start () {
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour {
                 if (Input.GetButtonDown("Jump"))
                 {
                     downspeed += 10.0f;
-                    //transform.Translate(Vector3.up * 0.01f);
+                    transform.Translate(Vector3.up * 0.01f);
                 }
             }
             else
@@ -62,16 +64,25 @@ public class Player : MonoBehaviour {
             //切り取り＆貼り付け操作
             if (Input.GetKeyDown(KeyCode.C) && Item.gameObject.GetComponent<Item>().SetCnt == 0)
             {
-                Item.gameObject.SetActive(false);
-                ItemScp = Item.gameObject.GetComponent<Item>();
+                if (SetItem != null) Destroy(SetItem);
+                tagnam = Item.gameObject.tag;
+                SetItem = Item;
+                SetItem.gameObject.SetActive(false);
+                ItemScp = SetItem.gameObject.GetComponent<Item>();
+                Item = null;
+                
             }
         }
+<<<<<<< HEAD
         /*if (Item != null && Input.GetKeyDown(KeyCode.V) && Vcnt == 0)
+=======
+        if (SetItem != null && Input.GetKeyDown(KeyCode.V) && SetItem.gameObject.GetComponent<Item>().SetCnt == 0)
+>>>>>>> master
         {
             SettingCanvas.gameObject.SetActive(true);
             Vcnt = 1;
             Setteing = true;
-            Item.gameObject.SetActive(true);
+            SetItem.gameObject.SetActive(true);
             GameObject.Find(tagnam).transform.position = new Vector2(nowpos.x + vectol, nowpos.y);
             Itmpos = GameObject.Find(tagnam).transform.position;
         }
@@ -86,7 +97,7 @@ public class Player : MonoBehaviour {
                 rot += 10;
                 if (rot > 350) rot = 0;
             }
-            Item.transform.eulerAngles = new Vector3(0, 0, rot);
+            SetItem.transform.eulerAngles = new Vector3(0, 0, rot);
 
             if (Input.GetKeyUp(KeyCode.V))  //Vキーを離したら調整終了
             {
@@ -94,7 +105,7 @@ public class Player : MonoBehaviour {
                 Setteing = false;
                 cb.isTrigger = false;
                 ItemScp.SetCnt = 1;
-                Item = null;
+                SetItem = null;
                 Vcnt = 0;
                 rot = 0;
             }           
@@ -103,12 +114,26 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag != "Obje")
+        if (collision.gameObject.tag != "Obje" && collision.gameObject.tag != "trap")
         {
             Item = collision.gameObject;
-            tagnam = collision.gameObject.tag;
+
             Debug.Log("Tuch");
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (!Input.GetKeyDown(KeyCode.C))
+        {
+            Item = null;
+            Debug.Log("Nothing");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "trap") SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnBecameInvisible()
