@@ -11,6 +11,7 @@ public class Home : MonoBehaviour {
     Vector3 campos;
     public Transform title;
     public Transform HomeCanvas;
+    public Transform StageCanvas;
     public Transform yazirusi;
     public GameObject SelectCamera;
     public Transform Marker;
@@ -89,20 +90,41 @@ public class Home : MonoBehaviour {
             {
                 MoveCamX = 0;
             }
-            if (Input.GetKeyDown(KeyCode.UpArrow) && Marker.transform.position.y < 2.25)
+            //マーカー上移動
+            if (Input.GetKeyDown(KeyCode.UpArrow) && Marker.transform.position.y < 2.05f && Marker.transform.position.x >= 17.2f)
             {
-                Marker.transform.Translate(0, 4.5f, 0);
+                Marker.transform.Translate(0, 4.1f, 0);
+            }else if (Input.GetKeyDown(KeyCode.UpArrow) && Marker.transform.position.y == 2.05f && Marker.transform.position.x >= 17.2f)
+            {
+                if (StageCanvas.transform.position.y > 0)
+                {
+                    StageCanvas.transform.Translate(0, -4.1f, 0);
+                }
             }
-            if(Input.GetKeyDown(KeyCode.LeftArrow) && Marker.transform.position.x > 17.2)
+            //マーカー左移動
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && Marker.transform.position.x > 17.2f)
             {
                 Marker.transform.Translate(-7.2f, 0, 0);
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            }else if(Input.GetKeyDown(KeyCode.LeftArrow) && Marker.transform.position.x == 17.2f)
             {
-                Marker.transform.Translate(0, -4.5f, 0);
+                Marker.transform.Translate(-7.2f, 0, 0);
+                Marker.gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            //マーカー下移動
+            if (Input.GetKeyDown(KeyCode.DownArrow) && Marker.transform.position.y > -2.05f && Marker.transform.position.x >= 17.2f)
             {
+                Marker.transform.Translate(0, -4.1f, 0);
+            }else if(Input.GetKeyDown(KeyCode.DownArrow) && Marker.transform.position.y == -2.05f && Marker.transform.position.x >= 17.2f)
+            {
+                if (StageCanvas.transform.position.y < 8.2f)
+                {
+                    StageCanvas.transform.Translate(0, 4.1f, 0);
+                }
+            }
+            //マーカー右移動
+            if (Input.GetKeyDown(KeyCode.RightArrow) && Marker.transform.position.x < 31.6f)
+            {
+                Marker.gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 Marker.transform.Translate(7.2f, 0, 0);
             }
         }
