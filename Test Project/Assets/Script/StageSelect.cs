@@ -48,12 +48,10 @@ public class StageSelect : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         TuchFlg = 1;
-        Debug.Log("OK");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         TuchFlg = 0;
-        Debug.Log("NO");
     }
 }
