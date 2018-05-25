@@ -136,5 +136,6 @@ public class Player : MonoBehaviour {
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Debug.Log("Respown");
+
     }
 }
