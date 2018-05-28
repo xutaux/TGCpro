@@ -21,7 +21,7 @@ public class BackHome : MonoBehaviour {
     void Update()
     {
         image.color = GetAlphaColor(image.color);
-        if(TuchFlg == 1)
+        if (TuchFlg == 1)
         {
             if(this.gameObject.transform.position.x > 12.7f)
             {
